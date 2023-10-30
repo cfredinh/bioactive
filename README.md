@@ -2,9 +2,9 @@
 
 Installation:
 
-    The pip packges used are found in the requirements.txt file and can be installed using pip3.
+    The pip packges used are found in the requirements.txt file and can be installed using pip.
 
-    pip3 install -r requirements.txt
+    pip install -r requirements.txt
 
 Code for ResNet50 and MLP model training
 
