@@ -1,0 +1,198 @@
+{
+"dataset_params" : {"dataset": "BioAct",
+                    "data_location" : "/path/to/images/",
+                    "dataset_csv_path" : "/path/to/data_csv/",
+                    "assays" : ["688128", "688238", "688360", "688546", "688549", "688612", "688687", "688812", "688816", "736947", "737187", "737287", "737344", "752347", "752407", "752434", "752493", "752563", "752590", "752594", "845045", "845102", "845164", "845169", "845173", "845177", "845196", "954338", "1495346"],
+                    "data_split_numbers" : {"train":[0,1,2,3],"val":[4],"test":[5]},
+                    "train_transforms" : {"Resize" : {"apply" : false,
+                                                      "height" : 270,
+                                                      "width" : 270},
+                                        
+                                        "CenterCrop": {"apply" : false,
+                                                      "height" : 224,
+                                                      "width" : 224}, 
+                                        
+                                        "Normalize": true,
+                                        
+                                        "VerticalFlip" : {"apply" : true,
+                                                            "p" : 0.5},
+                                          
+                                        "HorizontalFlip" : {"apply" : true,
+                                                            "p" : 0.5},
+                                          
+                                        "RandomRotation" : {"apply" : false,
+                                                            "angle" : 5,
+                                                           "p" : 0.5}, 
+                                          
+                                        "RandomGrayscale" : {"apply" : false,
+                                                                "p" : 0.2}, 
+                                        
+                                        "RandomCrop": {"apply" : true,
+                                                      "height" : 448,
+                                                      "width" : 448,
+                                                      "padding" : 0,
+                                                      "p" : 1.0}, 
+                                        
+                                        "ColorJitter" : {"apply" : false,
+                                                        "brightness" : 0.8,
+                                                        "contrast" : 0.8,
+                                                        "saturation" : 0.8,
+                                                        "hue" : 0.2,
+                                                        "p" : 0.8},
+                                          
+                                        "RandomPerspective" : {"apply" : false,
+                                                            "distortion_scale" : 0.2,
+                                                              "p" : 0.5}, 
+    
+                                        "RandomAffine" : {"apply" : false,
+                                                              "degrees" : 5,
+                                                              "translate" : [0.1, 0.3], 
+                                                              "scale" : [0.1, 3.3],
+                                                             "shear" : 0.2,
+                                                             "p" : 0.5},
+                                          
+                                        "RandomErasing" : {"apply" : false,
+                                                              "scale" : [0.02, 0.33],
+                                                              "ratio" : [0.3, 3.3], 
+                                                              "value" : 0,
+                                                              "p" : 0.5},
+                                          
+                                        "RandomGaussianBlur" : {"apply" : false,
+                                                              "radius_min" : 0.1,
+                                                              "radius_max" : 2.0, 
+                                                              "p" : 0.2},
+                                          
+                                        "RandomSolarize" : {"apply" : false,
+                                                            "threshold" : 128,
+                                                            "p" : 0.2},                                        
+                                          
+                                        "RandomResizedCrop" : {"apply" : false,
+                                                                 "size" : 448, 
+                                                                 "scale" : [0.75, 0.90]},
+                                        
+                                        "RandomShiftColor" : {"apply" : true},                         
+                                          
+                                        "MultiCrop" : {"apply" : false,
+                                                              "n_crops" : [2, 6],
+                                                              "sizes" : [224, 96],
+                                                              "scales" : [[0.4, 1.0], [0.05, 0.4]]}                                          
+                                         },
+                  
+                    "val_transforms" : {"Resize" : {"apply" : false,
+                                                      "height" : 270,
+                                                      "width" : 270},
+                                        
+                                        "CenterCrop": {"apply" : true,
+                                                      "height" : 448,
+                                                      "width" : 448}, 
+                                        
+                                        "Normalize": true                                        
+                                         },
+                  
+                    "test_transforms" : {"Resize" : {"apply" : false,
+                                                      "height" : 270,
+                                                      "width" : 270},
+                                        
+                                        "CenterCrop": {"apply" : true,
+                                                      "height" : 448,
+                                                      "width" : 448}, 
+                                        
+                                        "Normalize": true                                       
+                                         }
+                  },
+
+"dataloader_params" : {"trainloader" : {"batch_size" : 64, 
+                                        "num_workers" : 12,
+                                        "prefetch_factor" : 4,
+                                        "shuffle": true, 
+                                        "pin_memory" : true, 
+                                        "drop_last" : true, 
+                                        "persistent_workers" : true},
+                       "valloader" : {"batch_size" : 64, 
+                                        "num_workers" : 8,
+                                        "prefetch_factor" : 4,
+                                        "shuffle": false, 
+                                        "pin_memory" : true, 
+                                        "drop_last" : true, 
+                                        "persistent_workers" : true},
+                       "testloader" : {"batch_size" : 64, 
+                                        "num_workers" : 12,
+                                        "prefetch_factor" : 4,
+                                        "shuffle": false, 
+                                        "pin_memory" : true, 
+                                        "drop_last" : false, 
+                                        "persistent_workers" : false}
+                  },
+    
+"model_params" : {"backbone_type": "resnet50",
+                  "cnn_params" : {"pretrained_type" : "supervised"},                  
+                  "pretrained" : true,                  
+                  "freeze_backbone" : false
+                  },
+    
+"optimization_params" : {
+    "default" : {"optimizer" : {
+                    "type" : "SGD",
+                    "autoscale_lr": false,        
+                    "params" : {"lr" : 1e-3,
+                                "weight_decay" : 1e-4,
+                                "momentum" : 0.9}
+                            },
+                "LARS_params" : {"use": false,
+                                "batch_act_thresh" : 256,
+                                "eps" : 1e-8,
+                                "trust_coef" : 0.001},
+                "scheduler" : {
+                    "type" : ["LinearWarmup", "ReduceLROnPlateau"],
+                    "params" : {"ReduceLROnPlateau" : {"mode" : "max",
+                                                    "factor" : 0.1,
+                                                    "patience" : 6, 
+                                                    "verbose" : true},
+                                "OneCycleLR" : {"anneal_strategy" : "cos",
+                                               "final_div_factor": 1e-2},
+                                "MultiStepLR" : {"milestones": [20,30], 
+                                                 "gamma" : 0.1},
+                                "CosineAnnealingLR" : {"eta_min":1e-5}, 
+                                "LinearWarmup" : {"warmup_epochs":0,
+                                                  "warmup_iters":5000}                                   
+                               }
+    
+                            }
+                   }  
+            },
+
+        
+
+"training_params" : {"model_name" : "model_name",    
+                    "epochs" : 150,            
+                    "val_every" : 1.0,        
+                    "log_every" : 30,           
+                    "save_best_model": true,                     
+                    "log_embeddings" : true,
+                    "knn_eval": false, 
+                    "grad_clipping" : 1.0,
+                    "restore_session" : false,
+                    "restore_only_model": false,
+                    "use_tensorboard" : false,
+                    "use_mixed_precision" : false,                     
+                    "save_dir" : "/path/to/store/model/"                     
+                  },
+    
+"system_params" : {"use_all_GPUs" : true,
+                   "which_GPUs": "",
+                   "use_GPU" : true
+                  },
+    
+"log_params" : {"project_name" : "project_name",
+                "run_name": "DEFINED_BY_MODEL_NAME"
+                },
+    
+
+"transfer_learning_params" : {
+                    "use_pretrained" : false,
+                    "pretrained_model_name" : "",
+                    "pretrained_path" : "",
+                    "load_full_model" : false
+                 }
+}
+
