@@ -1,5 +1,9 @@
 # Bioactivity Prediction
 
+Code for training the ResNet50 and MLP models used in the paper: **Cell Painting-based bioactivity prediction boosts high-throughput screening hit-rates and compound diversity**
+
+
+
 Code for ResNet50 and MLP model training
     
     Training and testing with ResNet50 model can be done "python classification.py --params_path params/params.json"  
