@@ -1,0 +1,85 @@
+{
+    "dataset": {
+        "metadata": {
+            "label_field": "Metadata_Batch",
+            "control_value": "EMPTY_"
+        },
+        "images": {
+            "channels": [
+                "path_FileName_OrigAGP",
+                "path_FileName_OrigDNA",
+                "path_FileName_OrigER",
+                "path_FileName_OrigMito",
+                "path_FileName_OrigRNA"
+            ],
+            "file_format": "tiff",
+            "bits": 16,
+            "width": 1080,
+            "height": 1080
+        },
+        "locations": {
+            "mode": "single_cells",
+            "box_size": 128,
+            "area_coverage": 0.75,
+            "mask_objects": false
+        }
+    },
+    "prepare": {
+        "illumination_correction": {
+            "down_scale_factor": 4,
+            "median_filter_size": 24
+        },
+        "compression": {
+            "implement": true,
+            "scaling_factor": 1.0
+        }
+    },
+    "train": {
+        "partition": {
+            "targets": [
+                "pert_name"
+            ],
+            "split_field": "Split",
+            "training": [
+                0
+            ],
+            "validation": [
+                1
+            ]
+        },
+        "model": {
+            "name": "-",
+            "crop_generator": "-",
+            "augmentations": false,
+            "metrics": [
+                "-",
+                "-",
+                "."
+            ],
+            "epochs": 3,
+            "initialization": "-",
+            "params": {
+                "label_smoothing": 0.0,
+                "learning_rate": 0.005,
+                "batch_size": 32,
+                "conv_blocks": 0
+            }
+        },
+        "sampling": {
+            "factor": 1,
+            "workers": 1
+        },
+        "validation": {
+            "frequency": 1,
+            "top_k": 5,
+            "batch_size": 32,
+            "frame": "val",
+            "sample_first_crops": true
+        }
+    },
+    "profile": {
+        "feature_layer": "-",
+        "checkpoint": "-",
+        "batch_size": 32
+    }
+}
